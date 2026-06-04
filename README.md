@@ -79,11 +79,13 @@ python -m src.ssl_pipeline --config configs/config.yaml --dataset bank
 If you use this code in your research, please cite:
 
 ```bibtex
-@article{duranlopez2025edrs,
-  title={{EDRS}: Extremity-Density Representative Selection for Semi-Supervised Learning on Imbalanced Tabular Data},
-  author={Dur{\'a}n-L{\'o}pez, Alberto and Bola{\~n}os-Mart{\'i}nez, Daniel and Berm{\'u}dez-Edo, Mar{\'i}a and Garc{\'i}a-Nieto, Jos{\'e}},
-  journal={Under Review},
-  year={2025}
+@article{duran2026edrs,
+  title={EDRS: Extremity-density representative selection for semi-supervised learning on imbalanced data},
+  author={Dur{\'a}n-L{\'o}pez, Alberto and Bolanos-Martinez, Daniel and Bermudez-Edo, Maria},
+  journal={Information Sciences},
+  pages={123390},
+  year={2026},
+  publisher={Elsevier}
 }
 ```
 
