@@ -11,13 +11,13 @@ Semi-supervised learning leverages unlabeled data to improve classifiers when la
 ## Method
 
 <p align="center">
-  <img src="images/architecture.png" width="700"/>
+  <img src="paper/figures/proposal.png" width="700"/>
 </p>
 
 *EDRS method working scheme: the six-stage pipeline selects high-quality unlabeled representatives by combining density and extremity scoring in PCA space.*
 
 <p align="center">
-  <img src="images/pipeline.png" width="700"/>
+  <img src="paper/figures/pipeline.png" width="700"/>
 </p>
 
 *Overview of the proposed pipeline: LOF outlier removal → PCA → density/extremity scoring → KMeans++ clustering → representative selection with extremity swap.*
@@ -47,10 +47,10 @@ Performance comparison on six UCI benchmark datasets (F1-score, macro-averaged):
 ### Extremity Threshold Sensitivity
 
 <p align="center">
-  <img src="images/sensitivity.png" width="600"/>
+  <img src="paper/figures/smart_villages.png" width="600"/>
 </p>
 
-*Impact of the extremity threshold (e_thresh) on F1-Score and outlier rate. The value 0.80 maximises performance before outlier propagation degrades the labeled set quality.*
+*Real-world deployment context: the dataset originates from six smart village datasets and UCI benchmarks used to validate EDRS across diverse classification domains.
 
 ## Project Structure
 
