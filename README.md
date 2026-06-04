@@ -1,6 +1,6 @@
 # EDRS: Extremity-Density Representative Selection for Semi-Supervised Learning
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC--BY--4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 
 A representative sample selection method for semi-supervised learning (SSL) on imbalanced tabular data. EDRS selects the most informative unlabeled points by combining **density estimation** and **extremity scoring** in a reduced PCA space, after removing outliers via Local Outlier Factor (LOF). Selected representatives are pseudolabeled and merged with the original labeled set to train a downstream classifier.
 
