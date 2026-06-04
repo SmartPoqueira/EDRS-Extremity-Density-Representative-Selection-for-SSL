@@ -10,6 +10,9 @@ Semi-supervised learning leverages unlabeled data to improve classifiers when la
 
 ## Method
 
+![EDRS Pipeline](images/architecture.png)
+
+
 The EDRS algorithm operates in six stages:
 
 1. **Outlier Removal** — Local Outlier Factor (LOF) removes anomalous points that would distort density and extremity estimates.
