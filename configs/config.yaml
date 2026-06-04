@@ -1,0 +1,24 @@
+seed: 42
+
+dataset: bank
+datasets:
+  - bank
+  - cancer
+  - thyroid
+  - sonar
+  - seismic
+  - wilt
+
+labeled_ratio: 0.10       # 10% of training data is labeled
+cv_folds: 5               # 5-fold stratified cross-validation
+classifier: random_forest # Base classifier for pseudolabeling
+
+edrs:
+  n_neighbors_lof: 20     # LOF neighbors
+  contamination: 0.05     # Expected outlier fraction
+  n_components_pca: 0.95  # PCA variance retained
+  k_density: 10           # Neighbors for density estimation
+  density_quantile: 0.25  # Density threshold quantile
+  n_clusters: 50          # KMeans++ clusters
+  n_representatives: null # null = 1 per cluster
+  alpha: 0.5              # Density-Extremity balance (0.5 = equal)
