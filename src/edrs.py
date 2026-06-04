@@ -109,7 +109,11 @@ class EDRS:
         cluster_labels = self._cluster(X_pca)
 
         # --- Stage 6: Representative Selection ---
-        combined = self.alpha * density + (1 - self.alpha) * extremity
+        # Paper Algorithm 1, Step 6:
+        #   score = density * (1 + extremity)
+        # A multiplicative interaction: a point needs both high density AND
+        # high extremity to score well (zero density → score zero regardless).
+        combined = density * (1.0 + extremity)
         self._combined_scores = combined
 
         selected_local = self._select_representatives(
