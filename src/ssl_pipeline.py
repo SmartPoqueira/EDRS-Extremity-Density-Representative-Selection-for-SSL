@@ -70,6 +70,7 @@ def run_ssl_experiment(config):
             n_clusters=config["edrs"]["n_clusters"],
             n_representatives=config["edrs"]["n_representatives"],
             alpha=config["edrs"]["alpha"],
+            e_thresh=config["edrs"]["e_thresh"],
             random_state=config["seed"],
         )
         selected_idx = edrs.fit_select(X_unlabeled_s)

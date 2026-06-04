@@ -40,6 +40,8 @@ def _evaluate(X, y, labeled_mask, unlabeled_idx):
 
 def run_ablation(args):
     """Run EDRS ablation on synthetic + UCI-like data."""
+    import os
+    os.makedirs(args.folder, exist_ok=True)
     np.random.seed(42)
     X, y = make_classification(n_samples=500, n_features=20, n_classes=2,
                                 random_state=42)
@@ -55,8 +57,12 @@ def run_ablation(args):
 
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-    print(f"\n{'Configuration':<25} {'Weighted F1 (mean±std)':>25}")
-    print("=" * 55)
+    header = f"\n{'Configuration':<25} {'Weighted F1 (mean±std)':>25}"
+    separator = "=" * 55
+    print(header)
+    print(separator)
+
+    results_lines = [header, separator]
 
     for name, kwargs in configs:
         fold_f1s = []
@@ -70,12 +76,9 @@ def run_ablation(args):
                 edrs_kwargs = dict(
                     n_clusters=int(np.sqrt(len(train_idx))),
                     n_representatives=n_labeled,
-                    n_components_pca=0.95,
+                    n_components_pca=2,
                     **kwargs,
                 )
-                # alpha is not an EDRS __init__ param — patch combined score instead
-                if "alpha" in kwargs:
-                    edrs_kwargs.pop("alpha")
                 edrs = EDRS(**edrs_kwargs)
                 labeled_idx = edrs.fit_select(X_tr)[:n_labeled]
 
@@ -86,10 +89,23 @@ def run_ablation(args):
             f1 = _evaluate(X_tr, y_tr, labeled_mask, unlabeled)
             fold_f1s.append(f1)
 
-        print(f"{name:<25} {np.mean(fold_f1s):.4f} ± {np.std(fold_f1s):.4f}")
+            # Clean up memory/references
+            if "edrs_kwargs" in locals():
+                del edrs_kwargs
+            if "edrs" in locals():
+                del edrs
 
-    print("=" * 55)
+        res_line = f"{name:<25} {np.mean(fold_f1s):.4f} ± {np.std(fold_f1s):.4f}"
+        print(res_line)
+        results_lines.append(res_line)
+
+    print(separator)
+    results_lines.append(separator)
+    
     print(f"\nResults saved to: {args.folder}")
+    
+    with open(os.path.join(args.folder, "ablation_results.txt"), "w") as f:
+        f.write("\n".join(results_lines) + "\n")
 
 
 def main():

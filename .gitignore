@@ -16,3 +16,6 @@ results/
 
 # Paper (preserves it locally, but it should not be uploaded)
 paper/
+
+# Tests/Smoke test (preserves locally but not uploaded)
+tests/

@@ -50,12 +50,13 @@ class EDRS:
         self,
         n_neighbors_lof=20,
         contamination=0.05,
-        n_components_pca=0.95,
+        n_components_pca=2,
         k_density=10,
         density_quantile=0.25,
         n_clusters=50,
         n_representatives=None,
         alpha=0.5,
+        e_thresh=0.80,
         random_state=42,
     ):
         self.n_neighbors_lof = n_neighbors_lof
@@ -66,6 +67,7 @@ class EDRS:
         self.n_clusters = n_clusters
         self.n_representatives = n_representatives
         self.alpha = alpha
+        self.e_thresh = e_thresh
         self.random_state = random_state
 
         # Fitted attributes
@@ -111,9 +113,14 @@ class EDRS:
         # --- Stage 6: Representative Selection ---
         # Paper Algorithm 1, Step 6:
         #   score = density * (1 + extremity)
-        # A multiplicative interaction: a point needs both high density AND
-        # high extremity to score well (zero density → score zero regardless).
-        combined = density * (1.0 + extremity)
+        # alpha controls the ablation toggle: alpha=1.0 for density-only,
+        # alpha=0.0 for extremity-only, otherwise multiplicative combination.
+        if self.alpha == 1.0:
+            combined = density
+        elif self.alpha == 0.0:
+            combined = extremity
+        else:
+            combined = density * (1.0 + extremity)
         self._combined_scores = combined
 
         selected_local = self._select_representatives(
@@ -129,6 +136,9 @@ class EDRS:
     # ------------------------------------------------------------------
     def _remove_outliers(self, X, indices):
         """Remove outliers using Local Outlier Factor."""
+        if self.contamination == 0.0 or self.contamination is None:
+            self._clean_mask = np.ones(len(X), dtype=bool)
+            return indices
         lof = LocalOutlierFactor(
             n_neighbors=self.n_neighbors_lof,
             contamination=self.contamination,
@@ -220,7 +230,7 @@ class EDRS:
 
         For each cluster:
             1. Pick the point with highest combined score.
-            2. If that point is not extreme (extremity < median),
+            2. If that point's extremity is <= e_thresh,
                swap it with the most extreme point in the cluster.
         """
         unique_labels = np.unique(cluster_labels)
@@ -228,7 +238,6 @@ class EDRS:
         reps_per_cluster = max(1, n_reps // len(unique_labels))
 
         selected = []
-        extremity_median = np.median(extremity)
 
         for label in unique_labels:
             mask = cluster_labels == label
@@ -246,7 +255,7 @@ class EDRS:
 
             # Swap non-extreme candidates
             for i, cand in enumerate(candidates):
-                if extremity[cand] < extremity_median:
+                if extremity[cand] <= self.e_thresh:
                     # Find most extreme point in cluster not already selected
                     ext_scores = extremity[cluster_idx]
                     ext_ranked = cluster_idx[np.argsort(ext_scores)[::-1]]

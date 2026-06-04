@@ -16,9 +16,10 @@ classifier: random_forest # Base classifier for pseudolabeling
 edrs:
   n_neighbors_lof: 20     # LOF neighbors
   contamination: 0.05     # Expected outlier fraction
-  n_components_pca: 0.95  # PCA variance retained
+  n_components_pca: 2     # PCA components (2D)
   k_density: 10           # Neighbors for density estimation
   density_quantile: 0.25  # Density threshold quantile
   n_clusters: 50          # KMeans++ clusters
   n_representatives: null # null = 1 per cluster
   alpha: 0.5              # Density-Extremity balance (0.5 = equal)
+  e_thresh: 0.80          # Extremity threshold for representative swapping
