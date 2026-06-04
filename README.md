@@ -19,17 +19,23 @@ The EDRS pipeline consists of six distinct stages designed to balance local stru
 
 #### 1. Outlier Removal
 To prevent the propagation of noisy anomalies as representative points, we filter out instances with high **Local Outlier Factor (LOF)** scores:
-$$\operatorname{reach-dist}_k(x_1, x_2) = \max\{\operatorname{k-dist}(x_2),\, d(x_1, x_2)\}$$
-$$\operatorname{lrd}_k(x_1) = \frac{|N_k(x_1)|}{\sum_{x_2 \in N_k(x_1)} \operatorname{reach-dist}_k(x_1, x_2)}$$
-$$\operatorname{LOF}_k(x_1) = \frac{1}{|N_k(x_1)|} \cdot \sum_{x_2 \in N_k(x_1)} \frac{\operatorname{lrd}_k(x_2)}{\operatorname{lrd}_k(x_1)}$$
+
+$$\text{reach-dist}_k(x_1, x_2) = \max\{\text{k-dist}(x_2),\, d(x_1, x_2)\}$$
+
+$$\text{lrd}_k(x_1) = \frac{|N_k(x_1)|}{\sum_{x_2 \in N_k(x_1)} \text{reach-dist}_k(x_1, x_2)}$$
+
+$$\text{LOF}_k(x_1) = \frac{1}{|N_k(x_1)|} \cdot \sum_{x_2 \in N_k(x_1)} \frac{\text{lrd}_k(x_2)}{\text{lrd}_k(x_1)}$$
 
 #### 2. Dimensionality Reduction
 Data is projected onto the first two components using **Principal Component Analysis (PCA)** to preserve global Euclidean distances:
+
 $$X_{\text{pca}} = X[\mathbf{v}_1, \mathbf{v}_2]$$
 
 #### 3. Compute Density Score
 The density score $d_i$ evaluates local representativeness using the inverse of the median Euclidean distance to its $k'$ nearest neighbors in PCA space:
-$$d_i = \left( \operatorname{median}_{\mathbf{x}_j \in N_{k'}(\mathbf{x}_i)} \|\mathbf{x}_i - \mathbf{x}_j\|_2 \right)^{-1}$$
+
+$$d_i = \left( \text{median}_{\mathbf{x}_j \in N_{k'}(\mathbf{x}_i)} \|\mathbf{x}_i - \mathbf{x}_j\|_2 \right)^{-1}$$
+
 Densities below a user-defined threshold quantile $\delta_{\text{density}}$ are zeroed out to avoid low-density boundary noise.
 
 #### 4. Compute Extremity Score
