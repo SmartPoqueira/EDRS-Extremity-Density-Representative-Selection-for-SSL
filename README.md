@@ -11,13 +11,13 @@ Semi-supervised learning leverages unlabeled data to improve classifiers when la
 ## Method
 
 <p align="center">
-  <img src="paper/figures/proposal.png" width="700"/>
+  <img src="images/proposal.png" width="700"/>
 </p>
 
 *EDRS method working scheme: the six-stage pipeline selects high-quality unlabeled representatives by combining density and extremity scoring in PCA space.*
 
 <p align="center">
-  <img src="paper/figures/pipeline.png" width="700"/>
+  <img src="images/pipeline.png" width="700"/>
 </p>
 
 *Overview of the proposed pipeline: LOF outlier removal → PCA → density/extremity scoring → KMeans++ clustering → representative selection with extremity swap.*
@@ -47,7 +47,7 @@ Performance comparison on six UCI benchmark datasets (F1-score, macro-averaged):
 ### Extremity Threshold Sensitivity
 
 <p align="center">
-  <img src="paper/figures/smart_villages.png" width="600"/>
+  <img src="images/smart_villages.png" width="600"/>
 </p>
 
 *Real-world deployment context: the dataset originates from six smart village datasets and UCI benchmarks used to validate EDRS across diverse classification domains.
@@ -62,9 +62,10 @@ Performance comparison on six UCI benchmark datasets (F1-score, macro-averaged):
 │   ├── ssl_pipeline.py      # Semi-supervised training pipeline
 │   ├── data_loader.py       # UCI dataset loader (OpenML, no local files)
 │   └── utils.py             # Seed, metrics, helpers
-├── paper/
-│   ├── main.tex             # LaTeX manuscript
-│   └── *.bib
+├── images/
+│   ├── proposal.png
+│   ├── pipeline.png
+│   └── smart_villages.png
 └── scripts/
     └── run_experiment.sh    # Reproduce paper experiments
 ```
@@ -111,4 +112,4 @@ If you use this code in your research, please cite:
 
 ## License
 
-This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
+Creative Commons Attribution 4.0 International License (CC BY 4.0) — see [LICENSE](LICENSE) for details.
