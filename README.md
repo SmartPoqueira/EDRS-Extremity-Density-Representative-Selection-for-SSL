@@ -1,14 +1,12 @@
 # EDRS: Extremity-Density Representative Selection for Semi-Supervised Learning
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A representative sample selection method for semi-supervised learning (SSL) on imbalanced tabular data. EDRS selects the most informative unlabeled points by combining **density estimation** and **extremity scoring** in a reduced PCA space, after removing outliers via Local Outlier Factor (LOF). Selected representatives are pseudolabeled and merged with the original labeled set to train a downstream classifier.
 
 ## Overview
 
 Semi-supervised learning leverages unlabeled data to improve classifiers when labeled samples are scarce. However, naively incorporating all unlabeled data can degrade performance — especially under class imbalance, where the majority class dominates pseudolabel assignments. EDRS addresses this by selecting a small, high-quality subset of unlabeled points that are both **structurally representative** (high density) and **informative** (high extremity), ensuring coverage of minority-class boundaries.
-
-<p align="center">
-  <img src="paper/figures/algorithm_overview.png" width="700"/>
-</p>
 
 ## Method
 
@@ -37,29 +35,23 @@ Performance comparison on six UCI benchmark datasets (F1-score, macro-averaged):
 ## Project Structure
 
 ```
-EDRS/
-├── README.md
-├── LICENSE
-├── requirements.txt
 ├── configs/
 │   └── config.yaml          # Hyperparameters matching the paper
 ├── src/
-│   ├── __init__.py
 │   ├── edrs.py              # Core EDRS algorithm
 │   ├── ssl_pipeline.py      # Semi-supervised training pipeline
-│   ├── data_loader.py       # UCI dataset loader (external links)
+│   ├── data_loader.py       # UCI dataset loader (OpenML, no local files)
 │   └── utils.py             # Seed, metrics, helpers
 ├── paper/
 │   ├── main.tex             # LaTeX manuscript
-│   ├── references.bib
-│   └── figures/
+│   └── *.bib
 └── scripts/
     └── run_experiment.sh    # Reproduce paper experiments
 ```
 
 ## Datasets
 
-All datasets are loaded from external sources. No raw data files are included in this repository.
+All datasets are loaded from [OpenML](https://www.openml.org/). **No raw data files are included in this repository.**
 
 | Dataset | Source | Instances | Features | Imbalance Ratio |
 |---|---|---|---|---|
@@ -73,7 +65,6 @@ All datasets are loaded from external sources. No raw data files are included in
 ## Quick Start
 
 ```bash
-# Install dependencies
 pip install -r requirements.txt
 
 # Run full experiment (all datasets)
@@ -85,11 +76,13 @@ python -m src.ssl_pipeline --config configs/config.yaml --dataset bank
 
 ## Citation
 
+If you use this code in your research, please cite:
+
 ```bibtex
 @article{duranlopez2025edrs,
-  title={EDRS: Extremity-Density Representative Selection for Semi-Supervised Learning on Imbalanced Tabular Data},
+  title={{EDRS}: Extremity-Density Representative Selection for Semi-Supervised Learning on Imbalanced Tabular Data},
   author={Dur{\'a}n-L{\'o}pez, Alberto and Bola{\~n}os-Mart{\'i}nez, Daniel and Berm{\'u}dez-Edo, Mar{\'i}a and Garc{\'i}a-Nieto, Jos{\'e}},
-  journal={<Journal Name>},
+  journal={Under Review},
   year={2025}
 }
 ```
