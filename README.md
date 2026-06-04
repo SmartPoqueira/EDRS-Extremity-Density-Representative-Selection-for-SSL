@@ -10,8 +10,17 @@ Semi-supervised learning leverages unlabeled data to improve classifiers when la
 
 ## Method
 
-![EDRS Pipeline](images/architecture.png)
+<p align="center">
+  <img src="images/architecture.png" width="700"/>
+</p>
 
+*EDRS method working scheme: the six-stage pipeline selects high-quality unlabeled representatives by combining density and extremity scoring in PCA space.*
+
+<p align="center">
+  <img src="images/pipeline.png" width="700"/>
+</p>
+
+*Overview of the proposed pipeline: LOF outlier removal → PCA → density/extremity scoring → KMeans++ clustering → representative selection with extremity swap.*
 
 The EDRS algorithm operates in six stages:
 
@@ -34,6 +43,14 @@ Performance comparison on six UCI benchmark datasets (F1-score, macro-averaged):
 | Sonar | 0.712 | 0.744 | 0.729 | 0.720 | **0.769** |
 | Seismic | 0.568 | 0.583 | 0.567 | 0.556 | **0.605** |
 | Wilt | 0.894 | 0.905 | 0.889 | 0.893 | **0.917** |
+
+### Extremity Threshold Sensitivity
+
+<p align="center">
+  <img src="images/sensitivity.png" width="600"/>
+</p>
+
+*Impact of the extremity threshold (e_thresh) on F1-Score and outlier rate. The value 0.80 maximises performance before outlier propagation degrades the labeled set quality.*
 
 ## Project Structure
 
